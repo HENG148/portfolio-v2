@@ -4,7 +4,7 @@ import AboutSectionClient from "./about-section-client";
 export default async function AboutSection() {
   const about = await getAbout();
 
-  if (!about) return null; // or a fallback/empty state
+  if (!about) return null;
 
   return (
     <AboutSectionClient

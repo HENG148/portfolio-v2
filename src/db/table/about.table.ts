@@ -5,7 +5,7 @@ import { jsonb, text } from "drizzle-orm/pg-core";
 export type TbAbout = typeof TbAbout;
 export const TbAbout = table("about", {
   id: column.id(),
-  profileId: text("profile_id").notNull().unique(),
+  // profileId: text("profile_id").notNull().unique(),
   bio: column.text("bio").notNull(),
   highlights: jsonb("highlights").$type<Highlight[]>().notNull().default([]),
   tags: jsonb("tags").$type<Tag[]>().notNull().default([]),

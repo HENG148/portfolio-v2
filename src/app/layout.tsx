@@ -27,11 +27,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <body className="bg-[#0d0d0d] flex h-screen overflow-hidden">
-        {/* <Sidebar /> */}
+      {/* <body className="bg-[#0d0d0d] flex h-screen overflow-hidden">
+        <Sidebar />
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
+      </body> */}
+      <body>
+        {children}
       </body>
     </html>
   );

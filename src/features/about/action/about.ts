@@ -1,3 +1,5 @@
+"use server";
+
 import { withAuthAction } from "@/src/middleware/auth.middleware";
 import { AboutInsert, aboutSchema } from "@/src/db/schema/about.schema";
 import { db } from "@/src/db";
@@ -6,13 +8,20 @@ import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 
 export const getAbout = async () => {
-  try {
-    const about = await db.query.TbAbout.findFirst();
-    return about ?? null;
-  } catch (err) {
-    console.error("Error fetching about:", err);
-    throw new Error("Failed to fetch about section");
+  for (let attempt = 1; attempt <= 3; attempt++){
+    try {
+      return (await db.query.TbAbout.findFirst()) ?? null;
+    } catch (err: any) {
+      if (attempt < 3) await new Promise((r) => setTimeout(r, 500 * attempt));
+    }
+    return null;
   }
+  // try {
+  //   return (await db.query.TbAbout.findFirst()) ?? null;
+  // } catch (err) {
+  //   console.error("Error fetching about:", err);
+  //   throw new Error("Failed to fetch about section");
+  // }
 };
 
 export const upsertAboutAction = withAuthAction(
@@ -20,29 +29,19 @@ export const upsertAboutAction = withAuthAction(
     try {
       const validated = aboutSchema.safeParse(about);
       if (!validated.success) {
+        console.log("Zod validation errors:", JSON.stringify(validated.error.issues, null, 2));
         return { success: false, error: "Invalid about data" };
       }
 
-      if (!auth.profile) {
-        throw new Error("Profile not found. Please create a profile first.");
-      }
-
-      const profileId = auth.profile.id;
-
-      const existing = await db.query.TbAbout.findFirst({
-        where: (a, { eq }) => eq(a.profileId, profileId),
-      });
+      const existing = await db.query.TbAbout.findFirst();
 
       const result = existing
         ? await db
             .update(TbAbout)
             .set(validated.data)
-            .where(eq(TbAbout.profileId, profileId))
+            .where(eq(TbAbout.id, existing.id))
             .returning()
-        : await db
-            .insert(TbAbout)
-            .values({ ...validated.data, profileId })
-            .returning();
+        : await db.insert(TbAbout).values(validated.data).returning();
 
       revalidatePath("/dashboard/about");
       revalidatePath("/");

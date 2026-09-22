@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { upsertAboutAction } from "../action";
 import type { About } from "@/src/db/table/about.table";
+import type { Media } from "@/src/db/table/upload.table";
+import { MediaUpload } from "@/src/components/upload/media-upload";
 
 export default function AboutForm({ initial }: { initial: About | null }) {
   const [bio, setBio] = useState(initial?.bio ?? "");
@@ -12,6 +14,20 @@ export default function AboutForm({ initial }: { initial: About | null }) {
   const [tags, setTags] = useState<{ label: string }[]>(
     initial?.tags ?? [{ label: "" }]
   );
+
+  const [slides, setSlides] = useState<Media[]>(
+  (initial?.slides ?? []).map((s: any) => ({
+    id: s.publicId ?? "",
+    url: s.src,
+    publicId: s.publicId ?? "",
+    alt: s.alt,
+    width: null,
+    height: null,
+    bytes: null,
+    format: null,
+    createdAt: new Date(),
+  }))
+);
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -24,7 +40,11 @@ export default function AboutForm({ initial }: { initial: About | null }) {
       bio,
       highlights: highlights.filter((h) => h.text.trim()),
       tags: tags.filter((t) => t.label.trim()),
-      slides: initial?.slides ?? [],
+      slides: slides.map((m) => ({
+        src: m.url, 
+        alt: m.alt ?? "",
+        publicId: m.publicId,
+      }))
     });
 
     setSaving(false);
@@ -107,6 +127,11 @@ export default function AboutForm({ initial }: { initial: About | null }) {
         >
           + Add tag
         </button>
+      </div>
+
+      <div>
+        <label className="block text-sm text-zinc-400 mb-1.5">Slides</label>
+        <MediaUpload value={slides} onChange={setSlides} />
       </div>
 
       <div className="flex items-center gap-3">

@@ -11,6 +11,7 @@ export const tagSchema = z.object({
 export const slideSchema = z.object({
   src: z.string().min(1),
   alt: z.string().default(""),
+  publicId: z.string().min(1),
 });
 
 export const aboutSchema = z.object({

@@ -43,6 +43,13 @@
       "when": 1789113813649,
       "tag": "0005_ambiguous_slapstick",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1789972781741,
+      "tag": "0006_elite_the_santerians",
+      "breakpoints": true
     }
   ]
 }

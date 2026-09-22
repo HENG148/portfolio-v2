@@ -1,28 +1,32 @@
+'use client'
+
 import { fadeUp, staggerContainer } from "@/src/lib/motion/variants";
 import { motion } from "framer-motion";
 import { Highlight } from "./about-hightlights";
 import { TagList } from "@/src/components/tag-list";
-
-interface Slide {
-  src: string;
-  alt?: string;
-}
+import { ImageCarousel } from "@/src/components/Image-Carousel";
+import { Slide } from "../type";
 
 interface AboutSectionProps {
   heading?: string
-  bio: string[];
+  bio: string;
   highlights: { text: string }[];
-  tags: string[];
+  tags: { label: string }[];
   slides: Slide[];
 }
 
 export default function AboutSectionClient({
-  heading,
+  heading = "About Me",
   bio,
   highlights,
   tags,
-  // slides
- }: AboutSectionProps) {
+  slides
+}: AboutSectionProps) {
+  
+  const paragraph = bio
+    .split(/\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
   return (
     <section id="about" className="max-w-7xl mx-auto py-20 px-6 md:px-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center">
@@ -41,7 +45,7 @@ export default function AboutSectionClient({
           </motion.h2>
 
           <motion.div variants={staggerContainer(0.15)} className="flex flex-col gap-4">
-            {bio.map((para, i) => (
+            {paragraph.map((para, i) => (
               <motion.p
                 key={i}
                 variants={fadeUp}
@@ -52,8 +56,19 @@ export default function AboutSectionClient({
           </motion.div>
 
           <Highlight items={highlights} />
-          <TagList tags={tags} shape="pill" animated />
+          {/* <TagList tags={tags} shape="pill" animated /> */}
+          <TagList tags={tags.map((t) => t.label)} />
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="w-full"
+        >
+          <ImageCarousel slides={slides} />
+        </motion.div> 
       </div>
     </section>
   )

@@ -1,5 +1,5 @@
 import { getAbout } from "@/src/features/about/action";
-import AboutForm from "@/src/features/about/components/profile-form";
+import AboutForm from "@/src/features/about/components/about-form";
 
 export default async function DashboardAboutPag() {
   const about = await getAbout();

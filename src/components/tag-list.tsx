@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/src/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
 import { motion } from "framer-motion";

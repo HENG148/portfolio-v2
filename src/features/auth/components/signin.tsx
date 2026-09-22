@@ -33,8 +33,8 @@ export default function Signin() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-6">
-      <div className="w-full max-w-sm">
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <div className="w-full max-w-2xl">
         <div className="rounded-lg border border-zinc-800 bg-[#0d0d0d] overflow-hidden">
           <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-zinc-800">
             <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
