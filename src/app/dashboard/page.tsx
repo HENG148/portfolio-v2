@@ -8,6 +8,7 @@ import {
   Newspaper,
   Mail,
 } from "lucide-react";
+import { generateMetadata } from "@/src/lib/metadata";
 
 interface DashboardCard {
   label: string;
@@ -37,7 +38,7 @@ const cards: DashboardCard[] = [
     description: "Work history and roles",
     href: "/dashboard/experience",
     icon: Briefcase,
-    ready: false,
+    ready: true,
   },
   {
     label: "Education",
@@ -68,6 +69,12 @@ const cards: DashboardCard[] = [
     ready: false,
   },
 ];
+
+export const metadata = generateMetadata({
+  title: "Dashboard",
+  description: "dashboard",
+  path: "/dashboard",
+})
 
 export default function DashboardHomePage() {
   return (

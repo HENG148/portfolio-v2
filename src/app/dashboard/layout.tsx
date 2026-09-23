@@ -18,6 +18,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <Link href="/dashboard/about" className="text-sm px-2 py-1.5 rounded hover:bg-zinc-900">
               About
             </Link>
+            <Link href="/dashboard/experience" className="text-sm px-2 py-1.5 rounded hover:bg-zinc-900">
+              Experience
+            </Link>
             <Link href="/dashboard/projects" className="text-sm px-2 py-1.5 rounded hover:bg-zinc-900">
               Projects
             </Link>

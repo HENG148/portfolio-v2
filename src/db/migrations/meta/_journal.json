@@ -50,6 +50,20 @@
       "when": 1789972781741,
       "tag": "0006_elite_the_santerians",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790134091197,
+      "tag": "0007_tricky_captain_cross",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790140578482,
+      "tag": "0008_faithful_human_torch",
+      "breakpoints": true
     }
   ]
 }
