@@ -49,7 +49,7 @@ export async function POST(req: Request) {
         width: result.width,
         height: result.height,
         bytes: result.bytes,
-        formet: result.format,
+        format: result.format,
       })
       .returning();
     return NextResponse.json(media);

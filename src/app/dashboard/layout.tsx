@@ -4,9 +4,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const reqHeader = await headers();
   let session;
   try {
-    session = await auth.api.getSession({ headers: await headers() });
+    session = await auth.api.getSession({ headers: reqHeader });
   } catch (e) {
     console.error("Session lookup failed:", e);
     redirect("/login");

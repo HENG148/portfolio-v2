@@ -10,19 +10,29 @@ function subscribe(callback: () => void) {
   return () => {
     window.removeEventListener("storage", callback);
     window.removeEventListener("sidebar-collapse", callback);
-  }
+  };
 }
 
-function getSnapshot() {
+function readStored(): boolean | null {
   try {
-    return localStorage.getItem(STORAGE_KEY) === "true";
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw === null ? null : raw === "true";
   } catch {
-    return false
+    return null;
   }
 }
 
-export function useSidebarCollapse() {
-  const collapsed = useSyncExternalStore(subscribe, getSnapshot, () => false);
+export function useSidebarCollapse(defaultCollapsed = false) {
+  const getSnapshot = useCallback(
+    () => readStored() ?? defaultCollapsed,
+    [defaultCollapsed]
+  );
+
+  const collapsed = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    () => defaultCollapsed
+  );
 
   const setCollapsed = useCallback((value: boolean) => {
     try {
@@ -31,7 +41,10 @@ export function useSidebarCollapse() {
     window.dispatchEvent(new Event("sidebar-collapse"));
   }, []);
 
-  const toggle = useCallback(() => setCollapsed(!getSnapshot()), [setCollapsed]);
+  const toggle = useCallback(
+    () => setCollapsed(!getSnapshot()),
+    [setCollapsed, getSnapshot]
+  );
 
   return { collapsed, setCollapsed, toggle };
 }

@@ -47,7 +47,7 @@ export default function ProjectForm({ initial }: ProjectFormProps) {
     e.target.value = ""; // allow re-selecting the same file later
 
     if (result?.success) {
-      setImageUrl(result.url);
+      setImageUrl(result.url ?? "");
     } else {
       setError(result?.error ?? "Image upload failed");
     }
