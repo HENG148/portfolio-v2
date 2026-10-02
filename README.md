@@ -85,8 +85,8 @@ A data analytics project built for the Techpreneur scholarship application.
 
 ## Contact
 
-- 💼 [LinkedIn](https://linkedin.com/in/YOUR_USERNAME)
-- 🐙 [GitHub](https://github.com/YOUR_USERNAME)
+- 💼 [LinkedIn][(https://linkedin.com/in/YOUR_USERNAME](https://www.linkedin.com/in/rong-sokheng-a20512258/?isSelfProfile=true))
+- 🐙 [GitHub](https://github.com/HENG148)
 - 📸 [Instagram](https://instagram.com/YOUR_USERNAME)
 - ✈️ [Telegram](https://t.me/YOUR_USERNAME)
 
