@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hi, I'm Rong Sokheng 👋
 
-## Getting Started
+Full-stack developer building web apps end to end: database, backend, frontend and deployment. I work mostly with **Java Spring Boot** and **Next.js**, and I like owning a project from setup to ship.
 
-First, run the development server:
+🌐 Portfolio: [rongsokheng.com]([http://rongsokheng.com](https://portfolio-v2-indol-phi-47.vercel.app/))
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Area | Tools |
+|---|---|
+| **Frontend** | Next.js (App Router), React, TypeScript, Tailwind CSS, shadcn/ui, React Hook Form, Zod |
+| **Backend** | Java 21, Spring Boot 3, Express.js, Node.js, Django |
+| **Database** | PostgreSQL (Neon), MongoDB, Drizzle ORM, Flyway |
+| **Auth** | JWT, Better Auth, Auth.js |
+| **Tools** | Git, GitHub, Docker, Maven, VS Code, Cloudinary |
+| **Data** | Python, Pandas |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Projects
 
-To learn more about Next.js, take a look at the following resources:
+### 🖥️ Portfolio v2
+My personal portfolio site with a terminal-style UI: a prompt bar, a file-tree sidebar and an animated terminal window in the hero. Everything on it is editable from a private admin dashboard.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Admin dashboard (`/dashboard`) to manage About and Projects content, protected by a login session
+- Image uploads to Cloudinary, stored in Postgres
+- Project cards show a short intro. A details page shows the full write-up, rendered from markdown
+- Light and dark theme, with a hand-drawn style contact footer
+- **Stack:** Next.js, TypeScript, Tailwind CSS, Drizzle ORM, Neon Postgres, Better Auth, Cloudinary
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🎬 FLEXSEAT: Cinema Seat Booking
+A full-stack cinema seat booking app with user accounts and an admin panel. It is a monorepo with separate `clients/` and `server/` folders.
 
-## Deploy on Vercel
+- User registration and login with JWT
+- Movies, showtimes, seats and bookings
+- Admin pages: dashboard, movie CRUD, user management and booking management
+- Cinematic carousel, responsive navbar and movie cards
+- Docker setup for both services
+- **Stack:** Next.js, Tailwind CSS, React Hook Form, Zod, Express.js, TypeScript, Drizzle ORM, Neon Postgres, Docker
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📦 Inventory Management System
+A full-stack system for tracking stock, built independently with a Java backend and a Next.js frontend.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Spring Boot REST API with JWT authentication (Spring Security 6)
+- PostgreSQL with Flyway migrations
+- Next.js 14 UI with form validation, custom data hooks, toast notifications, error boundaries and loading skeletons
+- **Stack:** Java 21, Spring Boot 3.3, PostgreSQL, JJWT, Next.js 14, Tailwind CSS, react-hook-form, Zod
+
+### ☕ Lock in Coffee: POS System
+A point-of-sale system for a coffee shop.
+
+- Express and TypeScript backend with a PostgreSQL database
+- Next.js frontend, starting with the authentication module (login and register)
+- **Stack:** Express, TypeScript, PostgreSQL, Next.js, Tailwind CSS, shadcn/ui
+
+### ⚙️ StackStart
+A developer tool that generates project setup commands and folder structures, so a new project can start in minutes.
+
+- Landing page with staggered motion animations and a docs-style intro page
+- **Stack:** Next.js, TypeScript, Tailwind CSS, Drizzle ORM, Neon Postgres, Auth.js
+
+### 👟 StockX Marketplace
+A StockX-inspired sneaker marketplace.
+
+- Live bid and ask engine and real-time price tracking
+- Authentication flow
+- **Stack:** Next.js 15 (App Router), TypeScript, MongoDB, drizzle-orm, Tailwind CSS, serverless
+
+### ⏱️ Cross-Platform Shutdown Timer
+A Python desktop utility that automates power management on Windows, macOS and Linux.
+
+- Schedule shutdown, restart, sleep and system updates
+- Simple interface to configure and manage scheduled actions
+- **Stack:** Python, Django, HTML, Tailwind CSS
+
+### 📊 Data Analyst (Techpreneur)
+A data analytics project built for the Techpreneur scholarship application.
+
+- Explores, visualizes and draws insights from datasets
+- **Stack:** Python, Pandas
+
+---
+
+## Contact
+
+- 💼 [LinkedIn](https://linkedin.com/in/YOUR_USERNAME)
+- 🐙 [GitHub](https://github.com/YOUR_USERNAME)
+- 📸 [Instagram](https://instagram.com/YOUR_USERNAME)
+- ✈️ [Telegram](https://t.me/YOUR_USERNAME)
+
+> Always building something. Let's connect.
