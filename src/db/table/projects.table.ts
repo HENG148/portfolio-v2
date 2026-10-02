@@ -7,6 +7,7 @@ export const TbProject = table("project", {
   title: column.text("title").notNull(),
   category: column.text("category"),
   description: column.text("description").notNull(),
+  summary: text("summary"),
   imageUrl: column.text("image_url"),
   tags: text("tags").array().notNull().default([]),
   githubUrl: column.text("github_url"),

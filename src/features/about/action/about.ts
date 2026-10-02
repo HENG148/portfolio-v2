@@ -11,17 +11,13 @@ export const getAbout = async () => {
   for (let attempt = 1; attempt <= 3; attempt++){
     try {
       return (await db.query.TbAbout.findFirst()) ?? null;
-    } catch (err: any) {
-      if (attempt < 3) await new Promise((r) => setTimeout(r, 500 * attempt));
+    } catch {
+      if (attempt < 3) {
+        await new Promise((r) => setTimeout(r, 500 * attempt));
+      }
     }
     return null;
   }
-  // try {
-  //   return (await db.query.TbAbout.findFirst()) ?? null;
-  // } catch (err) {
-  //   console.error("Error fetching about:", err);
-  //   throw new Error("Failed to fetch about section");
-  // }
 };
 
 export const upsertAboutAction = withAuthAction(

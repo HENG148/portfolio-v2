@@ -64,6 +64,20 @@
       "when": 1790140578482,
       "tag": "0008_faithful_human_torch",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790655339359,
+      "tag": "0009_cultured_jimmy_woo",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790740559392,
+      "tag": "0010_eager_wraith",
+      "breakpoints": true
     }
   ]
 }

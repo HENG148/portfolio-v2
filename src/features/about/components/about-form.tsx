@@ -6,6 +6,8 @@ import type { About } from "@/src/db/table/about.table";
 import type { Media } from "@/src/db/table/upload.table";
 import { MediaUpload } from "@/src/components/upload/media-upload";
 
+type Slide = { src: string; alt?: string; publicId?: string };
+
 export default function AboutForm({ initial }: { initial: About | null }) {
   const [bio, setBio] = useState(initial?.bio ?? "");
   const [highlights, setHighlights] = useState<{ text: string }[]>(
@@ -16,18 +18,19 @@ export default function AboutForm({ initial }: { initial: About | null }) {
   );
 
   const [slides, setSlides] = useState<Media[]>(
-  (initial?.slides ?? []).map((s: any) => ({
-    id: s.publicId ?? "",
-    url: s.src,
-    publicId: s.publicId ?? "",
-    alt: s.alt,
-    width: null,
-    height: null,
-    bytes: null,
-    format: null,
-    createdAt: new Date(),
-  }))
-);
+    ((initial?.slides ?? []) as Slide[]).map((s) => ({
+      id: s.publicId ?? "",
+      url: s.src,
+      publicId: s.publicId ?? "",
+      alt: s.alt ?? null,
+      width: null,
+      height: null,
+      bytes: null,
+      format: null,
+      createdAt: new Date(),
+    }))
+  );
+
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 

@@ -1,18 +1,23 @@
-"use client";
+"use client"
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteExperienceAction } from "@/src/features/experience/action/experience";
+import { useState } from "react";
 
-export default function DeleteExperienceButton({ id }: { id: string }) {
+type ActionResult = { success?: boolean; error?: string | undefined | void; }
+type DeleteButtonProps = {
+  id: string;
+  action: (id: string) => Promise<ActionResult>;
+  confirmMessage?: string;
+}
+
+export default function DeleteButton({ id, action, confirmMessage = "Delete this items?" }: DeleteButtonProps) {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
 
   async function handleDelete() {
-    if (!confirm("Delete this experience entry?")) return;
-
+    if (!confirm(confirmMessage)) return;
     setDeleting(true);
-    const result = await deleteExperienceAction(id);
+    const result = await action(id);
     setDeleting(false);
 
     if (result?.success) {
@@ -23,7 +28,7 @@ export default function DeleteExperienceButton({ id }: { id: string }) {
   }
 
   return (
-    <button
+    <button 
       type="button"
       onClick={handleDelete}
       disabled={deleting}
@@ -31,5 +36,5 @@ export default function DeleteExperienceButton({ id }: { id: string }) {
     >
       {deleting ? "Deleting..." : "Delete"}
     </button>
-  );
+  )
 }

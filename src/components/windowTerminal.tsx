@@ -23,7 +23,7 @@ const TERMINAL_LINES: TerminalLine[] = [
   { prefix: "$", text: "git commit -m 'build: ship portfolio'", delay: 3800 },
   { prefix: ">", text: "[main abc123] 1 file changed, 200 insertions(+)", delay: 6300, dimmed: true },
   { prefix: " $", text: "curl -I http://rongsokheng.com", delay: 9000 },
-  { prefix: ">", text: "HTTP/2 200", delay: 11000},
+  { prefix: ">", text: "HTTP/2 200", delay: 11000 },
 ];
 
 const TYPING_SPEED_MS = 45;
@@ -68,13 +68,12 @@ export default function WindowTerminal() {
   const [showCursor, setShowCursor] = useState<boolean>(true);
 
   useEffect(() => {
-    setVisibleLine(new Set())
-    setTypeCharCount({})
     const timeouts: ReturnType<typeof setTimeout>[] = [];
+    const intervals: ReturnType<typeof setInterval>[] = [];
 
     TERMINAL_LINES.forEach((line, i) => {
       const timeout = setTimeout(() => {
-        setVisibleLine((prev) => new Set([...prev, i]))
+        setVisibleLine((prev) => new Set([...prev, i]));
 
         let charCount = 0;
         const interval = setInterval(() => {
@@ -82,16 +81,22 @@ export default function WindowTerminal() {
           setTypeCharCount((prev) => ({ ...prev, [i]: charCount }));
           if (charCount >= line.text.length) clearInterval(interval);
         }, TYPING_SPEED_MS);
-        timeouts.push(timeout);
+        intervals.push(interval);
       }, line.delay);
       timeouts.push(timeout);
-    })
+    });
 
     const loopTimeout = setTimeout(() => {
+      setVisibleLine(new Set());
+      setTypeCharCount({});
       setCycleKey((prev) => prev + 1);
     }, LOOP_RESTART_MS);
     timeouts.push(loopTimeout);
-    return () => timeouts.forEach(clearTimeout);
+
+    return () => {
+      timeouts.forEach(clearTimeout);
+      intervals.forEach(clearInterval);
+    };
   }, [cycleKey]);
 
   useEffect(() => {

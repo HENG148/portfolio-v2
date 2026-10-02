@@ -8,13 +8,24 @@ interface ProjectCardProps {
   project: Project;
 }
 
+// Fallback: strip markdown and trim, for projects without a summary yet
+function makeSummary(md: string, max = 140) {
+  const plain = md
+    .replace(/[*_`#>]/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (plain.length <= max) return plain;
+  return plain.slice(0, max).replace(/\s+\S*$/, "") + "…";
+}
+
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const { id, title, category, description, tags, imageUrl, status } = project;
+  const { id, title, category, summary, description, tags, imageUrl, status } = project;
   const isInProgress = status === "in-progress";
   const router = useRouter();
 
   return (
-    <article className="group bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden transition-all duration-200 hover:border-[#333333] hover:-translate-y-0.5">
+    <article className="group flex h-full flex-col bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden transition-all duration-200 hover:border-[#333333] hover:-translate-y-0.5">
       <div className="relative w-full h-48 bg-[#1a1a1a] overflow-hidden">
         {imageUrl ? (
           <Image src={imageUrl} alt={title} fill className="object-cover" />
@@ -31,14 +42,18 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         )}
       </div>
 
-      <div className="px-5 py-4 flex flex-col gap-3">
+      <div className="flex flex-1 flex-col gap-3 px-5 py-4">
         {category && (
           <p className="text-[11px] font-semibold tracking-widest text-white/35 uppercase">
             {category}
           </p>
         )}
         <h3 className="text-[17px] font-bold text-white leading-snug">{title}</h3>
-        <p className="text-[13px] text-white/50 leading-relaxed">{description}</p>
+
+        <p className="line-clamp-3 text-[13px] text-white/50 leading-relaxed">
+          {summary?.trim() || makeSummary(description)}
+        </p>
+
         <div className="flex flex-wrap gap-2">
           {tags.map((tag: string) => (
             <span
@@ -52,9 +67,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
         <button
           onClick={() => router.push(`/projects/${id}`)}
-          className="mt-2 self-start text-[13px] font-semibold text-white/80 border border-[#2a2a2a] rounded-lg px-4 py-2 hover:border-white/40 hover:text-white transition-colors"
+          className="mt-auto self-start text-[13px] font-semibold text-white/80 border border-[#2a2a2a] rounded-lg px-4 py-2 hover:border-white/40 hover:text-white transition-colors"
         >
-          View project →
+          View more details →
         </button>
       </div>
     </article>

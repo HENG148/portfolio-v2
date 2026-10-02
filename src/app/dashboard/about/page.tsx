@@ -6,7 +6,7 @@ export default async function DashboardAboutPag() {
   return (
     <div className="max-w-2xl">
       <h1 className="text-2xl font-bold text-white mb-6">About</h1>
-      <AboutForm initial={about} />
+      <AboutForm initial={about ?? null} />
     </div>
   )
 }

@@ -1,8 +1,8 @@
 import { boolean, integer, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import type { PgColumnBuilderBase } from "drizzle-orm/pg-core";
 
 export const column = {
-  // id: text("id").primaryKey(),
-  id: ()=>text("id").primaryKey().$defaultFn(()=> crypto.randomUUID()),
+  id: () => text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   serialId: serial("id").primaryKey(),
 
   text: (name: string) => text(name),
@@ -14,6 +14,9 @@ export const column = {
   updatedAt: () => timestamp("updated_at").notNull().defaultNow(),
 }
 
-export function table<T extends Record<string, unknown>>(name: string, columns: T) {
-  return pgTable(name, columns as any);
+export function table<T extends Record<string, PgColumnBuilderBase>>(
+  name: string,
+  columns: T
+) {
+  return pgTable(name, columns);
 }

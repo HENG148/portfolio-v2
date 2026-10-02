@@ -4,6 +4,12 @@ export const projectSchema = z.object({
   title: z.string().min(1),
   category: z.string().optional(),
   description: z.string().min(1),
+  summary: z
+    .string()
+    .trim()
+    .max(200, "Keep the short intro under 200 characters")
+    .optional()
+    .transform((v) => (v ? v : undefined)),
   imageUrl: z.string().url().optional(),
   tags: z.array(z.string()).min(1),
   githubUrl: z.string().url().optional(),

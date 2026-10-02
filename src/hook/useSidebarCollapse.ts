@@ -1,36 +1,37 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "sidebar:collapsed";
 
-export function useSidebarCollapse(defaultCollapsed = false) {
-  const [collapsed, setCollapsed] = useState<boolean>(defaultCollapsed)
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored !== null) setCollapsed(stored === "true");
-    } catch (_e) { }
-  }, [])
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("sidebar-collapse", callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("sidebar-collapse", callback);
+  }
+}
 
-  const toggle = useCallback(() => {
-    setCollapsed((prev) => {
-      const next = !prev;
-      try {
-        localStorage.setItem(STORAGE_KEY, String(next));
-      } catch (_e) { }
-      return next;
-    })
+function getSnapshot() {
+  try {
+    return localStorage.getItem(STORAGE_KEY) === "true";
+  } catch {
+    return false
+  }
+}
+
+export function useSidebarCollapse() {
+  const collapsed = useSyncExternalStore(subscribe, getSnapshot, () => false);
+
+  const setCollapsed = useCallback((value: boolean) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, String(value));
+    } catch {}
+    window.dispatchEvent(new Event("sidebar-collapse"));
   }, []);
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement).tagName;
-      if (tag === "Input" || tag === "TEXTAREA") return;
-      if (e.key === "[" && !e.metaKey && !e.ctrlKey) toggle();
-    }
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler)
-  }, [toggle]);
-  return { collapsed, toggle };
+  const toggle = useCallback(() => setCollapsed(!getSnapshot()), [setCollapsed]);
+
+  return { collapsed, setCollapsed, toggle };
 }

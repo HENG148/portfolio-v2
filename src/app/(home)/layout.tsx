@@ -1,3 +1,4 @@
+import Footer from "@/src/components/footer";
 import Sidebar from "@/src/features/sidebar/components/sidebar-section";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
@@ -6,7 +7,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
         {children}
+        <Footer />
       </div>
+      {/* <Footer /> */}
     </main>
   )
 }
