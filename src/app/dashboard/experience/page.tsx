@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "@/src/db";
-import DeleteExperienceButton from "@/src/components/ui/delete-button";
+import DeleteButton from "@/src/components/ui/delete";
+import { deleteExperienceAction } from "@/src/features/experience/action/experience";
 // import { generateMetadata } from "@/src/lib/metadata";
 
 // export const metadata = generateMetadata({
@@ -46,7 +47,8 @@ export default async function ExperiencePage() {
               >
                 Edit
               </Link>
-              <DeleteExperienceButton id={e.id} />
+              {/* <DeleteExperienceButton id={e.id} /> */}
+              <DeleteButton id={e.id} action={deleteExperienceAction} confirmMessage="Delete this experience category?" />
             </div>
           </div>
         ))}
