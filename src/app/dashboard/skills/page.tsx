@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { db } from "@/src/db";
 import DeleteButton from "@/src/components/ui/delete";
-import { deleteProjectAction } from "@/src/features/projects/action";
 import { deleteSkillCategoryAction } from "@/src/features/skills/action";
-// import DeleteSkillButton from "@/src/components/ui/delete-skill";
 
 export default async function DashboardSkillPage() {
   const categories = await db.query.TbSkillCategory.findMany({
