@@ -18,8 +18,10 @@ export const auth = betterAuth({
   trustedOrigins: [
     baseURL,
     process.env.NEXT_PUBLIC_APP_URL,
+    "https://portfolio-v2-indol-phi-47.vercel.app/",
     // process.env.BETTER_AUTH_URL!,
     "http://localhost:3000",
+    "https://*.vercel.app",
     // "http://127.0.0.1:3000"
   ].filter((o): o is string => Boolean(o)),
   session: {
