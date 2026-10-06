@@ -5,7 +5,7 @@ import { ProjectInsert, projectSchema } from "@/src/db/schema/projects.schema";
 import { db } from "@/src/db";
 import { Project, TbProject } from "@/src/db/table";
 import { revalidatePath } from "next/cache";
-import { and, eq, isNull } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NotFoundError } from "@/src/lib/error";
 
 export type ProjectDetail = Project & {
@@ -167,7 +167,35 @@ export const getProjectById = async (id: string) => {
   }
 };
 
-// export const getProjectDetail = async (projectId: string) => {
+export const getPublicProjects = async () => {
+  try {
+    return await db.query.TbProject.findMany({
+      where: (p, { and, eq, isNull }) =>
+        and(eq(p.isActive, true), isNull(p.deletedAt)),
+      orderBy: (p, { asc, desc }) => [asc(p.sortOrder), desc(p.createdAt)],
+    })
+  } catch (err) {
+    console.error("Error fetching public projects:", err);
+    throw new Error("Failed to fetch projects");
+  }
+}
+
+export const getHomeProjects = async (limit = 6) => {
+  try {
+    // one extra row tells us whether to show "See all"
+    const rows = await db.query.TbProject.findMany({
+      where: (p, { and, eq, isNull }) =>
+        and(eq(p.isActive, true), isNull(p.deletedAt)),
+      orderBy: (p, { asc, desc }) => [asc(p.sortOrder), desc(p.createdAt)],
+      limit: limit + 1,
+    });
+    return { projects: rows.slice(0, limit), hasMore: rows.length > limit };
+  } catch (err) {
+    console.error("Error fetching home projects:", err);
+    throw new Error("Failed to fetch projects");
+  }
+};
+
 export async function getProjectDetail(id: string): Promise<ProjectDetail> {
   const project = await db.query.TbProject.findFirst({
     where: (p, { eq, and, isNull }) =>
@@ -180,7 +208,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail> {
     where: (p, { eq, and, isNull }) =>
       and(eq(p.isActive, true), isNull(p.deletedAt)),
     columns: { id: true, title: true },
-    orderBy: (p, { desc }) => [desc(p.createdAt)],
+    orderBy: (p, { asc, desc }) => [asc(p.sortOrder), desc(p.createdAt)],
   });
 
   const idx = allProjects.findIndex((p) => p.id === id);

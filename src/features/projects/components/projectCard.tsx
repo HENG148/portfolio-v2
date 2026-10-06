@@ -1,14 +1,11 @@
-'use client'
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
-import { Project } from "@/src/db/table";
+import type { Project } from "@/src/db/table";
 
 interface ProjectCardProps {
   project: Project;
 }
 
-// Fallback: strip markdown and trim, for projects without a summary yet
 function makeSummary(md: string, max = 140) {
   const plain = md
     .replace(/[*_`#>]/g, "")
@@ -22,20 +19,25 @@ function makeSummary(md: string, max = 140) {
 export default function ProjectCard({ project }: ProjectCardProps) {
   const { id, title, category, summary, description, tags, imageUrl, status } = project;
   const isInProgress = status === "in-progress";
-  const router = useRouter();
 
   return (
-    <article className="group flex h-full flex-col bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden transition-all duration-200 hover:border-[#333333] hover:-translate-y-0.5">
-      <div className="relative w-full h-48 bg-[#1a1a1a] overflow-hidden">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#222222] bg-[#111111] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#333333]">
+      <div className="relative h-48 w-full overflow-hidden bg-[#1a1a1a]">
         {imageUrl ? (
-          <Image src={imageUrl} alt={title} fill className="object-cover" />
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover"
+          />
         ) : (
-          <div className="w-full h-full bg-[#161616]" />
+          <div className="h-full w-full bg-[#161616]" />
         )}
 
         {isInProgress && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="text-white text-sm font-semibold tracking-wide border border-white/20 rounded-full px-4 py-1.5">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/70 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
+            <span className="rounded-full border border-white/20 px-4 py-1.5 text-sm font-semibold tracking-wide text-white">
               In Progress
             </span>
           </div>
@@ -44,13 +46,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
       <div className="flex flex-1 flex-col gap-3 px-5 py-4">
         {category && (
-          <p className="text-[11px] font-semibold tracking-widest text-white/35 uppercase">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/35">
             {category}
           </p>
         )}
-        <h3 className="text-[17px] font-bold text-white leading-snug">{title}</h3>
+        <h3 className="text-[17px] font-bold leading-snug text-white">{title}</h3>
 
-        <p className="line-clamp-3 text-[13px] text-white/50 leading-relaxed">
+        <p className="line-clamp-3 text-[13px] leading-relaxed text-white/50">
           {summary?.trim() || makeSummary(description)}
         </p>
 
@@ -58,19 +60,19 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           {tags.map((tag: string) => (
             <span
               key={tag}
-              className="text-[12px] text-white/50 border border-[#2a2a2a] rounded-md px-2.5 py-0.5"
+              className="rounded-md border border-[#2a2a2a] px-2.5 py-0.5 text-[12px] text-white/50"
             >
               {tag}
             </span>
           ))}
         </div>
 
-        <button
-          onClick={() => router.push(`/projects/${id}`)}
-          className="mt-auto self-start text-[13px] font-semibold text-white/80 border border-[#2a2a2a] rounded-lg px-4 py-2 hover:border-white/40 hover:text-white transition-colors"
+        <Link
+          href={`/projects/${id}`}
+          className="mt-auto self-start rounded-lg border border-[#2a2a2a] px-4 py-2 text-[13px] font-semibold text-white/80 transition-colors hover:border-white/40 hover:text-white"
         >
           View more details →
-        </button>
+        </Link>
       </div>
     </article>
   );

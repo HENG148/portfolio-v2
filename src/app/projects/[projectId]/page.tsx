@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { NotFoundError } from "@/src/lib/error";
 import { getProjectDetail } from "@/src/features/projects/action";
 import MarkdownContent from "@/src/components/markdown-content";
+import { BreadCrumb } from "@/src/components/breadcrump";
 
 interface ProjectDetailPageProps {
   params: Promise<{ projectId: string }>;
@@ -42,12 +43,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   return (
     <section className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <Link
+        {/* <Link
           href="/#project"
           className="text-[13px] text-muted-foreground transition-colors hover:text-foreground"
         >
           ← Back to projects
-        </Link>
+        </Link> */}
+        <BreadCrumb postTitle="project"/>
 
         <p className="mb-2 mt-6 text-[12px] text-muted-foreground">
           Project {number} of {total}
