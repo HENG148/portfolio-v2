@@ -28,7 +28,7 @@ export default function Signin() {
       return;
     }
 
-    router.push("/dashboard/about");
+    router.push("/dashboard");
     router.refresh();
   }
 
