@@ -44,7 +44,7 @@ export default function ProjectForm({ initial }: ProjectFormProps) {
 
     const result = await uploadImageAction(formData);
     setUploading(false);
-    e.target.value = ""; // allow re-selecting the same file later
+    e.target.value = "";
 
     if (result?.success) {
       setImageUrl(result.url ?? "");

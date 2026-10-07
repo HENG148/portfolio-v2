@@ -9,7 +9,7 @@ const SOCIALS = [
   { label: "linkedin", href: "https://www.linkedin.com/in/rong-sokheng-a20512258/?isSelfProfile=true", Icon: FaLinkedin, color: "#0A66C2" },
   { label: "instagram", href: "https://www.instagram.com/__heng0_/", Icon: FaInstagram, color: "#E4405F" },
   { label: "github", href: "https://github.com/HENG148", Icon: FaGithub, color: "currentColor" },
-  { label: "telegram", href: "https://t.me/YOUR_USERNAME", Icon: FaTelegram, color: "#26A5E4" },
+  { label: "telegram", href: "https://t.me/HenGApril", Icon: FaTelegram, color: "#26A5E4" },
 ];
 
 export default function Footer() {

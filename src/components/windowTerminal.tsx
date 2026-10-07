@@ -1,30 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-
-interface TerminalLine {
-  prefix: string;
-  text: string;
-  delay: number;
-  dimmed?: boolean;
-}
-
-interface TerminalLineRowProps {
-  line: TerminalLine;
-  visibleCharCount: number;
-  showCursor: boolean;
-  isLastLine: boolean;
-  isFullyTyped: boolean;
-}
-
-const TERMINAL_LINES: TerminalLine[] = [
-  { prefix: "$", text: "npm run dev", delay: 0 },
-  { prefix: ">", text: "next dev - ready on http://localhost:3000", delay: 1200, dimmed: true },
-  { prefix: "$", text: "git commit -m 'build: ship portfolio'", delay: 3800 },
-  { prefix: ">", text: "[main abc123] 1 file changed, 200 insertions(+)", delay: 6300, dimmed: true },
-  { prefix: " $", text: "curl -I http://rongsokheng.com", delay: 9000 },
-  { prefix: ">", text: "HTTP/2 200", delay: 11000 },
-];
+import { TERMINAL_LINES, TerminalLineRowProps } from "../features/hero/type";
 
 const TYPING_SPEED_MS = 45;
 const CURSOR_BLINK_MS = 530;
@@ -44,22 +21,40 @@ function TrafficLights() {
 
 function TerminalLineRow({
   line,
+  visible,
   visibleCharCount,
   showCursor,
   isLastLine,
-  isFullyTyped
+  isFullyTyped,
 }: TerminalLineRowProps) {
   return (
-    <div className={`flex items-center gap-2 font-mono text-sm leading-8 ${line.dimmed ? "opacity-50" : ""}`}>
+    <div
+      className={`flex items-start gap-2 font-mono text-sm leading-8 ${
+        line.dimmed ? "opacity-50" : ""
+      } ${visible ? "" : "invisible"}`}
+    >
       <span className="text-neutral-500 select-none">{line.prefix}</span>
-      <span className="text-neutral-200">{line.text.slice(0, visibleCharCount)}</span>
 
-      {isLastLine && isFullyTyped && (
-        <span className={`inline-block w-2 h-4 bg-neutral-200 align-middle transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`} />
-      )}
+      <span className="relative min-w-0 flex-1 break-all">
+        {/* invisible copy of the full line: reserves the final (wrapped) height */}
+        <span className="invisible" aria-hidden>{line.text}</span>
+
+        {/* typed text overlays the reserved space */}
+        <span className="absolute inset-0 text-neutral-200">
+          {line.text.slice(0, visibleCharCount)}
+          {isLastLine && isFullyTyped && (
+            <span
+              className={`ml-0.5 inline-block h-4 w-2 bg-neutral-200 align-middle transition-opacity duration-100 ${
+                showCursor ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          )}
+        </span>
+      </span>
     </div>
   )
 }
+
 
 export default function WindowTerminal() {
   const [cycleKey, setCycleKey] = useState(0);
@@ -122,6 +117,7 @@ export default function WindowTerminal() {
             <TerminalLineRow
               key={idx}
               line={line}
+              visible={visibleLine.has(idx)}
               visibleCharCount={charCount}
               showCursor={showCursor}
               isLastLine={isLastLine}
